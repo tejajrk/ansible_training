@@ -1,0 +1,10 @@
+---
+# tasks file for user
+- name: create users add group sudoers
+  user:
+    name: "{{ item }}"
+    state: present
+    create_home: yes
+    shell: /bin/bash
+    group: sudoers
+  with_items: "{{ user_list }}"

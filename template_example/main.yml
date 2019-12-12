@@ -1,0 +1,14 @@
+- hosts: web
+  vars:
+    service_name: nginx
+  tasks:
+  - name: create a stop script
+    template:
+      src: /root/examples/template_example/templates/script.sh.j2
+      dest: /tmp/stop.sh
+      owner: root
+      mode: 740
+
+  - name: launch the remote script
+    shell:
+      cmd: /tmp/stop.sh

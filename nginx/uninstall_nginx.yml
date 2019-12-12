@@ -1,0 +1,14 @@
+---
+- hosts: web
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: stop the nginx service
+      service:
+        name: nginx
+        state: stopped
+    - name: Ensure nginx is uinstalled
+      package:
+        name: nginx
+        state: absent
+...

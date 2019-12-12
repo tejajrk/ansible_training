@@ -1,0 +1,7 @@
+host01
+host02
+ansibletower ansible_connection=local
+ansiblehost01
+
+[web]
+host01

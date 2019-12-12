@@ -1,0 +1,17 @@
+---
+- hosts: web
+  gather_facts: yes
+  become: yes
+  become_user: root #not required. By default become_user is root
+  vars:
+    sw_pkg: nginx
+    sw_svc: nginx
+  tasks:
+    - name: Ensure nginx is installed and latest
+      package:
+        name: "{{ sw_pkg }}"
+        state: latest
+    - name: start the nginx service
+      service:
+        name: "{{ sw_svc }}"
+        state: started

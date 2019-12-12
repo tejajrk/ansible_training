@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+  - name: import role user
+    import_role:
+      name: user
+  

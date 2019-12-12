@@ -1,0 +1,36 @@
+---
+- hosts: ansiblehost01
+  gather_facts: True
+  become: yes
+  tasks:
+#   - name: create a sudo group
+#     group:
+#         name: sudoers # required. Name of the group to manage.
+#         state: present # not required. choices: absent;present. Whether the group should be present or not on the remote host.
+#         gid: 2001 # not required. Optional I(GID) to set for the group.
+  - name: set fact based on distribution
+    set_fact:
+      string_in_file: "{% if ansible_distribution == 'CentOS' %}^%wheel{% else %}^%sudo{% endif %}"
+#   - name: Allow 'sudoers' group to have passwordless
+#     lineinfile:
+#       dest: /etc/sudoers
+#       state: present
+#       # regexp: '^%wheel'
+#       line: '%sudoers ALL=(ALL) NOPASSWD: ALL'
+#       insertafter: '^%wheel'
+#       validate: 'visudo -cf %s'
+#     when: ansible_distribution == 'CentOS'
+
+#   - name: add users to group sudo
+#     user:
+#         name: "{{ item }}"
+#         state: present
+#         create_home: yes
+#         shell: /bin/bash
+#         group: sudoers
+#     with_items:
+#         - teja
+#         - praveen
+#         - surya
+  - debug: var=string_in_file
+#  - debug: msg="{{ string_in_file }}"

@@ -1,0 +1,42 @@
+---
+- hosts: web
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Ensure nginx is installed and latest
+      package:
+        name: nginx
+        state: latest
+    - name: start the nginx service
+      service:
+        name: nginx
+        state: started
+    - name: copy nginx config file
+      copy:
+        src: /root/examples/nginx/static_site.cfg
+        dest: /etc/nginx/sites-available/static_site.cfg
+    - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/static_site.cfg
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+    - name: create directory structure
+      file:
+        path: /etc/nginx/custom_sites/
+        state: directory
+    - name: copy content of the website and notify handler
+      copy:
+        src: /root/examples/nginx/static_site_src/
+        dest: /etc/nginx/custom_sites/static-site
+      notify: 
+        - restart_nginx
+
+
+
+  handlers:
+    - name: restart_nginx
+      service:
+        name: nginx
+        state: restarted
+
+
